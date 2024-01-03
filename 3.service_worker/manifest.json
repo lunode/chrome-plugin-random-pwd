@@ -1,0 +1,9 @@
+{
+  "manifest_version": 3,
+  "version": "0.0.1",
+  "description": "test",
+  "name": "测试插件",
+  "background": {
+    "service_worker": "service_worker.js"
+  }
+}

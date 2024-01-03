@@ -1,0 +1,10 @@
+{
+    "manifest_version": 3,
+    "version": "0.0.1",    
+    "description": "test",
+    "name": "测试插件"
+    // "content_security_policy": {
+    //   "extension_pages": "script-src 'self'; unsafe-online;",
+    // }
+  
+}
