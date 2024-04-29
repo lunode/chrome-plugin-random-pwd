@@ -18,6 +18,8 @@ const privateKey = document.querySelector("#privateKey");
 const algorithm = document.querySelector("#algorithm");
 const jwten = document.querySelector("#jwten");
 const jwtde = document.querySelector("#jwtde");
+const urlen = document.querySelector("#urlen");
+const urlde = document.querySelector("#urlde");
 
 // read cache to view
 const checkboxArr = [
@@ -60,15 +62,24 @@ chrome.storage.local
     });
   });
 document.addEventListener("change", async (e) => {
+  console.log("change event:", e, e.target.value);
   if (e.target.type == "checkbox") {
+    console.log("checkbox");
     await chrome.storage.local.set({
       [e.target.id]: e.target.checked ? "true" : "false",
     });
   } else if (e.target.type.indexOf("input") > -1) {
+    console.log("input");
     await chrome.storage.local.set({
       [e.target.id]: e.target.value,
     });
   } else if (e.target.type.indexOf("select") > -1) {
+    console.log("select");
+    await chrome.storage.local.set({
+      [e.target.id]: e.target.value,
+    });
+  } else if (e.target.type.indexOf("number" > -1)) {
+    console.log("number");
     await chrome.storage.local.set({
       [e.target.id]: e.target.value,
     });
@@ -147,12 +158,14 @@ var genCurried = (fn) => () => {
   }
 };
 var uuidGenerator = genCurried(uuid.v4);
-var randomPassword = genCurried(random.genPwd.bind(null, 8, "@"));
+var randomPassword = genCurried(random.genPwd.bind(null, 12, "@#$"));
 var md5encrypt = encryptCurried(SparkMD5.hash);
 var base64encrypt = encryptCurried(base64.encode);
 var sha1encrypt = asyncEncryptCurried(sha.sha1);
 var sha256encrypt = asyncEncryptCurried(sha.sha256);
 var base64decrypt = encryptCurried(base64.decode);
+var urlEncode = encryptCurried(encodeURIComponent);
+var urlDecode = encryptCurried(decodeURIComponent);
 
 async function randomStrByConfig() {
   try {
@@ -197,5 +210,7 @@ sha256en.addEventListener("click", sha256encrypt);
 uuidgen.addEventListener("click", uuidGenerator);
 randomStr.addEventListener("click", randomStrByConfig);
 randowPwd.addEventListener("click", randomPassword);
+urlen.addEventListener("click", urlEncode);
+urlde.addEventListener("click", urlDecode);
 // jwten.addEventListener("click", jwtEncrypt);
 // jwtde.addEventListener("click", jwtDecrypt);

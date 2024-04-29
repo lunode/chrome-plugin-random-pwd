@@ -71,6 +71,10 @@
       margin-right: 6px;
     }
 
+    .mr-5 {
+      margin-right: 5px;
+    }
+
     .mt-10 {
       margin-top: 10px;
     }
@@ -151,13 +155,15 @@
     <div class="label">输出:</div>
     <div contentEditable="true" class="output" data-key="outputCache"></div>
     <div class="flex">
-      <div class="button mb-10 mr-6" id="b64en">base64加密</div>
-      <div class="button mb-10 mr-6" id="md5en">md5加密</div>
-      <div class="button mb-10 mr-6" id="sha1en">sha1加密</div>
-      <div class="button mb-10 mr-6" id="sha256en">sha256加密</div>
-      <div class="button mr-6" id="b64de">base64解密</div>
-      <div class="button mr-6" id="uuidgen">uuid</div>
-      <div class="button mr-6" id="randowPwd">随机8位密码</div>
+      <div class="button mb-10 mr-5" id="b64en">base64编码</div>
+      <div class="button mb-10 mr-5" id="b64de">base64解码</div>
+      <div class="button mb-10 mr-5" id="urlen">url编码</div>
+      <div class="button mb-10 mr-5" id="urlde">url解码</div>
+      <div class="button mb-10" id="uuidgen">uuid</div>
+      <div class="button mr-6" id="md5en">md5加密</div>
+      <div class="button mr-6" id="sha1en">sha1加密</div>
+      <div class="button mr-6" id="sha256en">sha256加密</div>
+      <div class="button mr-6" id="randowPwd">随机12位密码</div>
     </div>
     <div class="label">自定义生成规则:</div>
     <div class="flex checkbox-parent">
