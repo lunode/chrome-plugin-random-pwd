@@ -18,8 +18,12 @@ const privateKey = document.querySelector("#privateKey");
 const algorithm = document.querySelector("#algorithm");
 const jwten = document.querySelector("#jwten");
 const jwtde = document.querySelector("#jwtde");
+const urien = document.querySelector("#urien");
+const uride = document.querySelector("#uride");
 const urlen = document.querySelector("#urlen");
 const urlde = document.querySelector("#urlde");
+const timestamp = document.querySelector("#timestamp");
+const timestampTransform = document.querySelector("#timestamp-transform");
 
 // read cache to view
 const checkboxArr = [
@@ -150,13 +154,15 @@ var asyncEncryptCurried = (fn) => async () => {
     render(new Error(err.message || "生成错误"));
   }
 };
-var genCurried = (fn) => () => {
-  try {
-    render(fn(input.textContent));
-  } catch (err) {
-    render(new Error("生成失败,您的浏览器可能版本过低,不支持最新的Crypto Api"));
-  }
-};
+var genCurried =
+  (fn, message = "生成失败,您的浏览器可能版本过低,不支持最新的Crypto Api") =>
+  () => {
+    try {
+      render(fn(input.textContent));
+    } catch (err) {
+      render(new Error(message));
+    }
+  };
 var uuidGenerator = genCurried(uuid.v4);
 var randomPassword = genCurried(random.genPwd.bind(null, 12, "@#$"));
 var md5encrypt = encryptCurried(SparkMD5.hash);
@@ -164,9 +170,26 @@ var base64encrypt = encryptCurried(base64.encode);
 var sha1encrypt = asyncEncryptCurried(sha.sha1);
 var sha256encrypt = asyncEncryptCurried(sha.sha256);
 var base64decrypt = encryptCurried(base64.decode);
+var uriEncode = encryptCurried(encodeURI);
+var uriDecode = encryptCurried(decodeURI);
 var urlEncode = encryptCurried(encodeURIComponent);
 var urlDecode = encryptCurried(decodeURIComponent);
-
+var timestampHandle = genCurried(Date.now, "生成时间戳失败");
+var timestampTransformHandle = encryptCurried(function (content) {
+  console.log(content);
+  if (Number.isNaN(Number(content))) {
+    const timestamp = Date.parse(content);
+    return Number.isNaN(timestamp)
+      ? new Error("时间或时间戳格式不正确")
+      : timestamp;
+  } else {
+    console.log(false);
+    const dateString = new Date(Number(content)).toLocaleString();
+    return dateString == "Invalid Date"
+      ? new Error("时间或时间戳格式不正确")
+      : dateString;
+  }
+});
 async function randomStrByConfig() {
   try {
     const res = await chrome.storage.local.get([...checkboxArr, "length"]);
@@ -210,7 +233,11 @@ sha256en.addEventListener("click", sha256encrypt);
 uuidgen.addEventListener("click", uuidGenerator);
 randomStr.addEventListener("click", randomStrByConfig);
 randowPwd.addEventListener("click", randomPassword);
+urien.addEventListener("click", uriEncode);
+uride.addEventListener("click", uriDecode);
 urlen.addEventListener("click", urlEncode);
 urlde.addEventListener("click", urlDecode);
+timestamp.addEventListener("click", timestampHandle);
+timestampTransform.addEventListener("click", timestampTransformHandle);
 // jwten.addEventListener("click", jwtEncrypt);
 // jwtde.addEventListener("click", jwtDecrypt);
