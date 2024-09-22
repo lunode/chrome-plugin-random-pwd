@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>随机字符串, 密码</title>
+  <script src="./polyfill.js"></script>
   <script src="./lib/SparkMD5.js"></script>
   <script src="./lib/base64.js"></script>
   <script src="./lib/sha.js"></script>
@@ -19,11 +20,17 @@
       margin: 0;
       padding: 0;
       accent-color: rgba(100, 103, 233);
+      font-size: 12px;
     }
 
     .container {
+      margin: auto;
       width: 360px;
-      padding: 12px 20px 0 20px;
+      padding: 12px 20px 1px 20px;
+      box-shadow: 0 10px 10px -5px rgb(0 0 0 / 0.1),
+        10px 0 10px -5px rgb(0 0 0 / 0.1),
+        -10px 0 10px -5px rgb(0 0 0 / 0.1),
+        0 -10px 10px -5px rgb(0 0 0 / 0.1);
     }
 
     .label {
@@ -37,7 +44,7 @@
       border: 1px solid #ccc;
       outline: none;
       width: 100%;
-      height: 64px;
+      height: 80px;
       padding: 4px;
       box-sizing: border-box;
       user-select: none;
@@ -61,6 +68,10 @@
       display: flex;
       flex-wrap: wrap;
       align-items: center;
+    }
+
+    .gap-5 {
+      gap: 5px;
     }
 
     .mb-10 {
@@ -89,7 +100,7 @@
       align-items: center;
       justify-content: center;
       color: white;
-      padding: 6px 10px;
+      padding: 6px 6px;
       border-radius: 4px;
       background-color: rgba(100, 103, 233);
       cursor: pointer;
@@ -155,19 +166,30 @@
     <div class="label">输出:</div>
     <div contentEditable="true" class="output" data-key="outputCache"></div>
     <div class="flex">
-      <div class="button mb-10 mr-5" id="b64en">base64编码</div>
-      <div class="button mb-10 mr-5" id="urien">URI编码</div>
-      <div class="button mb-10 mr-5" id="urlen">URL编码</div>
-      <div class="button mr-5 mb-10" id="md5en">md5加密</div>
-      <div class="button mb-10" id="uuidgen">uuid</div>
-      <div class="button mb-10 mr-5" id="b64de">base64解码</div>
-      <div class="button mb-10 mr-5" id="uride">URI解码</div>
-      <div class="button mb-10 mr-5" id="urlde">URL解码</div>
-      <div class="button  mb-10" id="sha1en">sha1加密</div>
-      <div class="button mr-5" id="sha256en">sha256加密</div>
-      <div class="button mr-5" id="randowPwd">随机12位密码</div>
-      <div class="button mr-5" id="timestamp">当前时间戳</div>
-      <div class="button mr-5" id="timestamp-transform">时间戳转换</div>
+      <div class="flex mb-10 gap-5">
+        <div class="button" id="b64en">base64编码</div>
+        <div class="button" id="urien">URI编码</div>
+        <div class="button" id="urlen">URL编码</div>
+        <div class="button" id="ssen">ss协议编码</div>
+        <div class="button" id="timestamp">当前时间戳</div>
+      </div>
+
+      <div class="flex mb-10 gap-5">
+        <div class="button" id="b64de">base64解码</div>
+        <div class="button" id="uride">URI解码</div>
+        <div class="button" id="urlde">URL解码</div>
+        <div class="button" id="ssde">ss协议解码</div>
+        <div class="button" id="timestamp-transform">时间戳转换</div>
+      </div>
+
+      <div class="flex mb-10 gap-5">
+        <div class="button" id="uuidgen">uuid</div>
+        <div class="button" id="md5en">md5加密</div>
+        <div class="button" id="sha1en">sha1加密</div>
+        <div class="button" id="sha256en">sha256加密</div>
+        <div class="button" id="randowPwd">随机12位密码</div>
+      </div>
+
     </div>
     <div class="label">自定义生成规则:</div>
     <div class="flex checkbox-parent">

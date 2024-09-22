@@ -1,0 +1,12 @@
+{
+  "name": "chrome-plugin-random-pwd",
+  "version": "1.0.0",
+  "description": "hash加密,哈希加密,base64加密,base64解密,base64编码,base64解码,md5加密,随机字符串,随机密码,url编码,url解码,时间戳生成,时间戳转换,uri编码,uri解码, ss协议解码，ss协议编码，ss:/",
+  "main": "",
+  "scripts": {
+    "build": "make build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

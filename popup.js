@@ -22,6 +22,8 @@ const urien = document.querySelector("#urien");
 const uride = document.querySelector("#uride");
 const urlen = document.querySelector("#urlen");
 const urlde = document.querySelector("#urlde");
+const ssen = document.querySelector("#ssen");
+const ssde = document.querySelector("#ssde");
 const timestamp = document.querySelector("#timestamp");
 const timestampTransform = document.querySelector("#timestamp-transform");
 
@@ -209,6 +211,69 @@ async function randomStrByConfig() {
     render(new Error("生成失败"));
   }
 }
+var ssEncode = encryptCurried(function (content) {
+  let json;
+  try {
+    let json_string = content
+      .trim()
+      .replace(/(\w+):/g, '"$1":')
+      .replace(/'/g, '"');
+    console.log(json_string);
+    if (json_string.endsWith(",")) {
+      json_string = json_string.slice(0, -1);
+    }
+    console.log(json_string);
+    json = JSON.parse(json_string);
+    if (Object.prototype.toString.call(json).slice(8, -1) !== "Object") {
+      throw new Error("invalid format");
+    }
+    let sslink = `ss://${base64.encode(
+      json.method + ":" + json.password + "@" + json.server + ":" + json.port
+    )}`;
+    if (json.name) {
+      sslink += `#${encodeURIComponent(json.name)}`;
+    }
+    return sslink;
+  } catch (err) {
+    console.log(err);
+    return new Error(
+      `SS协议对象格式不正确，参考:
+      {
+        "method": "aes-256-gcm",
+        "password": "your-password",
+        "server": "127.0.0.1",
+        "port": 8388,
+        "name": "MyServer"
+      }
+      `
+    );
+  }
+});
+var ssDecode = encryptCurried(function (content) {
+  if (!content.startsWith("ss://")) {
+    return new Error(
+      "SS协议格式不正确，参考 ss://YWVzLTI1Ni1nY206cGFzc3dvcmRAMTI3LjAuMC4xOjg4OA#MyServer"
+    );
+  }
+  const url = new URL(content);
+  try {
+    const serverInfo = base64.decode(url.pathname.replace(/\//g, ""));
+    console.log(serverInfo);
+    const [method, passwordAndServer, port] = serverInfo.split(":");
+    const [password, server] = passwordAndServer.split("@");
+    console.log(method, password, server, port);
+    return JSON.stringify({
+      method,
+      password,
+      server,
+      port,
+    });
+  } catch (error) {
+    return new Error(
+      "SS协议格式不正确，参考 ss://YWVzLTI1Ni1nY206cGFzc3dvcmRAMTI3LjAuMC4xOjg4OA#MyServer"
+    );
+  }
+});
 // async function jwtEncrypt() {
 //   const res = await chrome.storage.local.get([
 //     "publicKey",
@@ -237,7 +302,10 @@ urien.addEventListener("click", uriEncode);
 uride.addEventListener("click", uriDecode);
 urlen.addEventListener("click", urlEncode);
 urlde.addEventListener("click", urlDecode);
+ssen.addEventListener("click", ssEncode);
+ssde.addEventListener("click", ssDecode);
 timestamp.addEventListener("click", timestampHandle);
 timestampTransform.addEventListener("click", timestampTransformHandle);
+
 // jwten.addEventListener("click", jwtEncrypt);
 // jwtde.addEventListener("click", jwtDecrypt);
